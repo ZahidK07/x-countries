@@ -1,0 +1,22 @@
+
+
+.container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.flag{
+  height: 150px;
+  width: 200px;
+  border: 1px solid grey;
+  text-align: center;
+  padding: 20px;
+  background-color: rgb(242, 242, 242);
+  border-radius: 5px;
+}
+
+.flag img{
+  height: 100px;
+  width: 80%;
+}
