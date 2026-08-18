@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
+const API_URL = "https://xcountries-backend.labs.crio.do/all";
+
 function App() {
   const [countries, setCountries] = useState([]);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch(
-      "https://countries-search-data-prod-812920491762.asia-south1.run.app/countries",
-    )
+    fetch(API_URL)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP Error! Status: ${response.status}`);
@@ -25,9 +25,10 @@ function App() {
       });
   }, []);
 
-  const filteredCountries = countries.filter((country) =>
-    country.common.toLowerCase().includes(search.toLowerCase()),
-  );
+  const filteredCountries = countries.filter((country) =>{
+    const countryName = String(country?.name || "")
+    return countryName.toLowerCase().includes(search.toLowerCase());
+  });
 
   return (
     <div className="app">
@@ -41,14 +42,18 @@ function App() {
       </div>
 
       <div className="countries-container">
-        {filteredCountries.map((country) => (
-          <div className="countryCard" key={country.common}>
+        {filteredCountries.map((country, index) => (
+          <div
+            className="countryCard"
+            key={`${country?.name || "country"}-${index}`}
+          >
             <img
-              src={country.png}
-              alt={country.common}
+              src={country?.flag}
+              alt={country?.name || "Country flag"}
               className="country-flag"
             />
-            <h3>{country.common}</h3>
+
+            <h3>{country?.name}</h3>
           </div>
         ))}
       </div>
