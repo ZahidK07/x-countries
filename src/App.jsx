@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-const API_URL = "https://xcountries-backend.labs.crio.do/all";
+const API_URL =
+  "https://countries-search-data-prod-812920491762.asia-south1.run.app/countries";
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -25,8 +26,9 @@ function App() {
       });
   }, []);
 
-  const filteredCountries = countries.filter((country) =>{
-    const countryName = String(country?.name || "")
+  const filteredCountries = countries.filter((country) => {
+    const countryName = country?.common || "";
+
     return countryName.toLowerCase().includes(search.toLowerCase());
   });
 
@@ -37,23 +39,15 @@ function App() {
           type="text"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
-          className="search-input"
         />
       </div>
 
       <div className="countries-container">
         {filteredCountries.map((country, index) => (
-          <div
-            className="countryCard"
-            key={`${country?.name || "country"}-${index}`}
-          >
-            <img
-              src={country?.flag}
-              alt={country?.name || "Country flag"}
-              className="country-flag"
-            />
+          <div className="countryCard" key={`${country.common}-${index}`}>
+            <img src={country.png} alt={country.common} />
 
-            <h3>{country?.name}</h3>
+            <h2>{country.common}</h2>
           </div>
         ))}
       </div>
